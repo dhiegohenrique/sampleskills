@@ -2,12 +2,11 @@ module.change_code = 1
 
 const alexa = require('alexa-app')
 const app = new alexa.app('alexa-cine-skill')
-const request = require("request")
 // const moment = require('moment')
 const cheerio = require('cheerio')
 const axios = require('axios')
 const numeroPorExtenso = require('numero-por-extenso')
-var Speech = require('ssml-builder');
+const Speech = require('ssml-builder')
 
 app.launch((request, response) => {
   response
@@ -73,30 +72,70 @@ app.intent('CheckStatusIntent',
 
       const response = await axios.get(url)
       const $ = cheerio.load(response.data)
-      const prefix = 'Estreias de '
 
-      $('.title-inter').each((index, el) => {
-        let title = $(el).text().trim()
-        title = title.replace(prefix, '')
+      const arrayReleases = []
 
-        let array = title.split(' ')
+      const mapMovies = new Map()
+      $('.movie-agenda-month').each((indexAgenda, el) => {
+        //lançamento1
+        mapMovies.set(indexAgenda, '')
+
+        let releaseDate = $('.title-inter', el).first().text().trim()
+        releaseDate = releaseDate.replace('Estreias de ', '')
+
+        let array = releaseDate.split(' ')
         array[0] = numeroPorExtenso.porExtenso(array[0])
         array[array.length - 1] = numeroPorExtenso.porExtenso(array[array.length - 1])
 
-        title = `${prefix}${array.join(' ')}`
+        releaseDate = `Estréias de ${array.join(' ')}`
+        const obj = {
+          releaseDate,
+          movies: []
+        }
 
-        console.log(`title: ${title}`)
-        // res
-        //   .say(title)
+        $('.month-movies-link', el).each((index, el) => {
+          const movie = $(el).text().trim()
+          obj.movies.push(movie)
+        })
 
+        arrayReleases.push(obj)
+      })
+
+      arrayReleases.forEach((release) => {
         var speech = new Speech()
-          .say(title)
+          .say(release.releaseDate)
           .pause('2s')
 
-        // change 'true' to 'false' if you want to include the surrounding <speak/> tag
-        var speechOutput = speech.ssml(true);
-        res.say(speechOutput);
+        var speechOutput = speech.ssml(true)
+        res.say(speechOutput)
+
+        release.movies.forEach((movie) => {
+          speech = new Speech()
+            .say(movie)
+            .pause('1s')
+
+          speechOutput = speech.ssml(true)
+          res.say(speechOutput)
+        })
       })
+
+      // $('.title-inter').each((index, el) => {
+      //   let title = $(el).text().trim()
+      //   title = title.replace('Estreias de ', '')
+
+      //   let array = title.split(' ')
+      //   array[0] = numeroPorExtenso.porExtenso(array[0])
+      //   array[array.length - 1] = numeroPorExtenso.porExtenso(array[array.length - 1])
+
+      //   title = `Estréias de ${array.join(' ')}`
+
+      //   var speech = new Speech()
+      //     .say(title)
+      //     .pause('2s')
+
+      //   var speechOutput = speech.ssml(true)
+      //   res.say(speechOutput)
+      // })
 
       resolve()
     })
@@ -108,11 +147,11 @@ app.intent('AMAZON.HelpIntent', {
   'utterances': []
 },
   (request, response) => {
-    var helpOutput = 'Você pode escolher entre a programação do mês ou da semana';
-    var reprompt = 'Qual programação você deseja saber?';
+    var helpOutput = 'Você pode escolher entre a programação do mês ou da semana'
+    var reprompt = 'Qual programação você deseja saber?'
     // AMAZON.HelpIntent must leave session open -> .shouldEndSession(false)
-    response.say(helpOutput).reprompt(reprompt).shouldEndSession(false);
+    response.say(helpOutput).reprompt(reprompt).shouldEndSession(false)
   }
-);
+)
 
 module.exports = app
