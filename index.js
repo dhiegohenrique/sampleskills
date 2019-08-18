@@ -1,8 +1,8 @@
 module.change_code = 1;
 'use strict';
 
-var alexa = require( 'alexa-app' );
-var app = new alexa.app( 'myskill' );
+const alexa = require( 'alexa-app' );
+const app = new alexa.app( 'myskill' );
 
 
 app.launch( function( request, response ) {
