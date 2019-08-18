@@ -1,17 +1,16 @@
 module.change_code = 1
-'use strict'
 
 const alexa = require('alexa-app')
 const app = new alexa.app('alexa-cine-skill')
-
+const request = require("request")
 
 app.launch((request, response) => {
   response
     .say('Bem-vindo a programação do cinema')
-    .reprompt('Pergunte-me algo')
+    .say('Qual programação você deseja saber?')
+    // .reprompt('Pergunte-me algo')
     .shouldEndSession(false)
 })
-
 
 app.error = (error, request, response) => {
   response
@@ -38,13 +37,26 @@ app.intent('WeeklyScheduleIntent',
   }
 )
 
-app.intent("AMAZON.HelpIntent", {
-  "slots": {},
-  "utterances": []
+app.intent('CheckStatusIntent',
+  {
+    'utterances': [
+      'deste site']
+  },
+  async (request, response) => {
+    const res = await request('http://api.openweathermap.org/data/2.5/weather?q=London')
+    response
+      .say('testando a resposta')
+      .say(res)
+  }
+)
+
+app.intent('AMAZON.HelpIntent', {
+  'slots': {},
+  'utterances': []
 },
-  function (request, response) {
-    var helpOutput = "Você pode escolher entre a programação do mês ou da semana";
-    var reprompt = "Qual programação você deseja saber?";
+  (request, response) => {
+    var helpOutput = 'Você pode escolher entre a programação do mês ou da semana';
+    var reprompt = 'Qual programação você deseja saber?';
     // AMAZON.HelpIntent must leave session open -> .shouldEndSession(false)
     response.say(helpOutput).reprompt(reprompt).shouldEndSession(false);
   }
