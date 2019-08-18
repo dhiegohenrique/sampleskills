@@ -41,7 +41,7 @@ app.intent('CheckStatusIntent',
     'utterances': [
       'deste site']
   },
-  async (req, res) => {
+  (req, res) => {
     // const response = await request('https://samples.openweathermap.org/data/2.5/weather?q=London,uk&appid=b6907d289e10d714a6e88b30761fae22')
     // console.log('response.body: ' + response.body)
     // res
@@ -54,9 +54,14 @@ app.intent('CheckStatusIntent',
 
     //   res.say('Esta é a resposta: ' + body)
     // })
-    const response = await request.get(url)
-    console.log('response.body.weather.description: ' + response.body.weather.description)
-    res.say('Esta é a resposta: ' + response.body.weather.description)
+    // const response = await request.get(url)
+    // console.log('response.body.weather.description: ' + response.body.weather.description)
+    // res.say('Esta é a resposta: ' + response.body.weather.description)
+
+    return request.get(url, (error, response, body) => {
+      console.log('body.weather.description: ' + body.weather.description)
+      res.say('esta é a resposta: ' + body.weather.description)
+    })
   }
 )
 
