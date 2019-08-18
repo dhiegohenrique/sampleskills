@@ -18,7 +18,7 @@ app.error = (error, request, response) => {
     .say('Desculpe, algum erro ocorreu: ' + error.message)
 }
 
-app.intent('programacao_mes',
+app.intent('mes',
   {
     'utterances': [
       'deste mês']
@@ -28,7 +28,7 @@ app.intent('programacao_mes',
   }
 )
 
-app.intent('programacao_semana',
+app.intent('semana',
   {
     'utterances': [
       'desta semana']
