@@ -43,9 +43,9 @@ app.intent('CheckStatusIntent',
   },
   async (req, res) => {
     const response = await request('http://api.openweathermap.org/data/2.5/weather?q=London')
+    console.log('response.body: ' + response.body)
     res
-      .say('testando a resposta')
-      .say(response.body)
+      .say('testando a resposta: ' + response.body)
   }
 )
 
