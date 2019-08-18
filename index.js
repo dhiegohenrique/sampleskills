@@ -7,8 +7,7 @@ const request = require("request")
 app.launch((request, response) => {
   response
     .say('Bem-vindo a programação do cinema')
-    .say('Qual programação você deseja saber?')
-    // .reprompt('Pergunte-me algo')
+    .reprompt('Qual programação você deseja saber?')
     .shouldEndSession(false)
 })
 
@@ -42,11 +41,11 @@ app.intent('CheckStatusIntent',
     'utterances': [
       'deste site']
   },
-  async (request, response) => {
-    const res = await request('http://api.openweathermap.org/data/2.5/weather?q=London')
-    response
+  async (req, res) => {
+    const response = await request('http://api.openweathermap.org/data/2.5/weather?q=London')
+    res
       .say('testando a resposta')
-      .say(res)
+      .say(response.body)
   }
 )
 
