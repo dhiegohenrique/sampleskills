@@ -21,11 +21,20 @@ app.error = (error, request, response) => {
 app.intent('programacao',
   {
     'utterances': [
-      'deste mês',
+      'deste mês']
+  },
+  (request, response) => {
+    response.say('digo deste mês')
+  }
+)
+
+app.intent('programacao',
+  {
+    'utterances': [
       'desta semana']
   },
   (request, response) => {
-    response.say('Até mais')
+    response.say('digo da semana')
   }
 )
 
@@ -40,17 +49,5 @@ app.intent("AMAZON.HelpIntent", {
     response.say(helpOutput).reprompt(reprompt).shouldEndSession(false);
   }
 );
-
-app.intent('dialogo', {
-  dialog: {
-    type: delegate
-  },
-  "utterances": [
-    'diga um',
-    'diga dois'
-  ]
-}, (request, response) => {
-  response.say('estou dizendo alguma coisa')
-})
 
 module.exports = app
