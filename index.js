@@ -3,7 +3,7 @@ module.change_code = 1
 const alexa = require('alexa-app')
 const app = new alexa.app('alexa-cine-skill')
 const request = require("request")
-const moment = require('moment')
+// const moment = require('moment')
 const cheerio = require('cheerio')
 const axios = require('axios')
 
