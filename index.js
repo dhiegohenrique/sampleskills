@@ -6,6 +6,8 @@ const request = require("request")
 // const moment = require('moment')
 const cheerio = require('cheerio')
 const axios = require('axios')
+const numeroPorExtenso = require('numero-por-extenso')
+var Speech = require('ssml-builder');
 
 app.launch((request, response) => {
   response
@@ -71,10 +73,29 @@ app.intent('CheckStatusIntent',
 
       const response = await axios.get(url)
       const $ = cheerio.load(response.data)
+      const prefix = 'Estreias de '
+
       $('.title-inter').each((index, el) => {
-        const title = $(el).text()
+        let title = $(el).text().trim()
+        title = title.replace(prefix, '')
+
+        let array = title.split(' ')
+        array[0] = numeroPorExtenso.porExtenso(array[0])
+        array[array.length - 1] = numeroPorExtenso.porExtenso(array[array.length - 1])
+
+        title = `${prefix}${array.join(' ')}`
+
         console.log(`title: ${title}`)
-        res.say(title)
+        // res
+        //   .say(title)
+
+        var speech = new Speech()
+          .say(title)
+          .pause('2s')
+
+        // change 'true' to 'false' if you want to include the surrounding <speak/> tag
+        var speechOutput = speech.ssml(true);
+        res.say(speechOutput);
       })
 
       resolve()
