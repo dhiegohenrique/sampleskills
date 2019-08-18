@@ -73,7 +73,7 @@ app.intent('CheckStatusIntent',
       const $ = cheerio.load(response.data)
       $('.title-inter').each((index, el) => {
         const title = $(el).text()
-        console.log(`index: ${index}, title: ${title}`)
+        console.log(`title: ${title}`)
         res.say(title)
       })
 
