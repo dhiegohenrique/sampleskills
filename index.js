@@ -29,4 +29,16 @@ app.intent('programacao',
   }
 )
 
+app.intent("AMAZON.HelpIntent", {
+  "slots": {},
+  "utterances": []
+},
+  function (request, response) {
+    var helpOutput = "Você pode escolher entre a programação do mês ou da semana";
+    var reprompt = "Qual programação você deseja saber?";
+    // AMAZON.HelpIntent must leave session open -> .shouldEndSession(false)
+    response.say(helpOutput).reprompt(reprompt).shouldEndSession(false);
+  }
+);
+
 module.exports = app
