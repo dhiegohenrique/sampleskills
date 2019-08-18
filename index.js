@@ -5,12 +5,12 @@ const alexa = require( 'alexa-app' );
 const app = new alexa.app( 'myskill' );
 
 
-app.launch( function( request, response ) {
+app.launch((request, response) => {
         response.say( 'Welcome to Alexa World' ).reprompt( 'Ask Something.' ).shouldEndSession( false );
 } );
 
 
-app.error = function( exception, request, response ) {
+app.error = (error, request, response) => {
  response.say( 'Sorry some error occured ' + error.message);
 };
 
@@ -22,7 +22,7 @@ app.intent('sayHello',
   "What's up",
   "Hey alexa"]
   },
-  function(request,response) {
+  (request,response) => {
     response.say("Hello, Welcome to alexa world.");
   }
 );
