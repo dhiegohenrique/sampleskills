@@ -1,30 +1,32 @@
-module.change_code = 1;
-'use strict';
+module.change_code = 1
+'use strict'
 
-const alexa = require('alexa-app');
-const app = new alexa.app('myskill');
+const alexa = require('alexa-app')
+const app = new alexa.app('myskill')
 
 
 app.launch((request, response) => {
-  response.say('Welcome to Alexa World').reprompt('Ask Something.').shouldEndSession(false);
-});
+  response
+    .say('Bem-vindo a programação do cinema')
+    .reprompt('Ask Something.')
+    .shouldEndSession(false)
+})
 
 
 app.error = (error, request, response) => {
-  response.say('Sorry some error occured ' + error.message);
-};
+  response
+    .say('Desculpe, algum erro ocorreu: ' + error.message)
+}
 
-app.intent('sayHello',
+app.intent('programacao',
   {
-    "utterances": [
-      "say Hello",
-      "Hello alexa",
-      "What's up",
-      "Hey alexa"]
+    'utterances': [
+      'deste mês',
+      'desta semana']
   },
   (request, response) => {
-    response.say("Hello, Welcome to alexa world.");
+    response.say('Até mais')
   }
-);
+)
 
-module.exports = app;
+module.exports = app
