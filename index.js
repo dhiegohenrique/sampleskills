@@ -41,4 +41,16 @@ app.intent("AMAZON.HelpIntent", {
   }
 );
 
+app.intent('dialogo', {
+  dialog: {
+    type: delegate
+  },
+  "utterances": [
+    'diga um',
+    'diga dois'
+  ]
+}, (request, response) => {
+  response.say('estou dizendo alguma coisa')
+})
+
 module.exports = app
