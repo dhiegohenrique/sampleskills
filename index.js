@@ -4,6 +4,8 @@ const alexa = require('alexa-app')
 const app = new alexa.app('alexa-cine-skill')
 const request = require("request")
 const moment = require('moment')
+const cheerio = require('cheerio')
+const axios = require('axios')
 
 app.launch((request, response) => {
   response
@@ -43,8 +45,10 @@ app.intent('CheckStatusIntent',
       'deste site']
   },
   (req, res) => {
-    const url = 'https://samples.openweathermap.org/data/2.5/weather?q=London,uk&appid=b6907d289e10d714a6e88b30761fae22'
-    return new Promise((resolve) => {
+    let url = 'https://samples.openweathermap.org/data/2.5/weather?q=London,uk&appid=b6907d289e10d714a6e88b30761fae22'
+    url = 'http://www.adorocinema.com/filmes/agenda/mes/mes-2019-07/'
+
+    return new Promise(async (resolve) => {
       // não funcionou:
       // const response = await request.get(url)
       // const body = JSON.parse(response.body)
@@ -59,10 +63,20 @@ app.intent('CheckStatusIntent',
       //   resolve()
       // })
 
-      const currentDate = moment()
-      const month = currentDate.month()
-      const year = currentDate.year()
-      res.say(`o mês atual é ${month} e o ano atual é ${year}`)
+      // const currentDate = moment()
+      // const month = currentDate.month()
+      // const year = currentDate.year()
+      // res.say(`o mês atual é ${month} e o ano atual é ${year}`)
+      // resolve()
+
+      const response = await axios.get(url)
+      const $ = cheerio.load(response.data)
+      $('.title-inter').each((index, el) => {
+        const title = $(this).text().trim()
+        console.log(`index: ${index}, title: ${title}`)
+        res.say(title)
+      })
+
       resolve()
     })
   }
