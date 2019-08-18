@@ -2,13 +2,13 @@ module.change_code = 1
 'use strict'
 
 const alexa = require('alexa-app')
-const app = new alexa.app('myskill')
+const app = new alexa.app('alexa-cine-skill')
 
 
 app.launch((request, response) => {
   response
     .say('Bem-vindo a programação do cinema')
-    .reprompt('Ask Something.')
+    .reprompt('Pergunte-me algo')
     .shouldEndSession(false)
 })
 
