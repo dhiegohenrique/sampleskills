@@ -72,7 +72,7 @@ app.intent('CheckStatusIntent',
       const response = await axios.get(url)
       const $ = cheerio.load(response.data)
       $('.title-inter').each((index, el) => {
-        const title = $(this).text().trim()
+        const title = $(el).text()
         console.log(`index: ${index}, title: ${title}`)
         res.say(title)
       })
