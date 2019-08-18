@@ -58,11 +58,19 @@ app.intent('CheckStatusIntent',
     // console.log('response.body.weather.description: ' + response.body.weather.description)
     // res.say('Esta é a resposta: ' + response.body.weather.description)
 
-    return request.get(url, (error, response, body) => {
-      body = JSON.parse(body)
-      console.log('body >>>> ' + JSON.stringify(body))
-      console.log('body.weather.description: ' + body.name)
-      res.say('esta é a resposta: ' + body.name)
+    // return request.get(url, (error, response, body) => {
+    //   body = JSON.parse(body)
+    //   console.log('body.weather.description: ' + body.name)
+    //   res.say('esta é a resposta: ' + body.name)
+    // })
+
+    return new Promise((resolve) => {
+      request.get(url, (error, response, body) => {
+        body = JSON.parse(body)
+        console.log('body.weather.description: ' + body.name)
+        res.say('esta é a resposta: ' + body.name)
+        resolve()
+      })
     })
   }
 )
