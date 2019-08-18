@@ -61,8 +61,8 @@ app.intent('CheckStatusIntent',
     return request.get(url, (error, response, body) => {
       body = JSON.parse(body)
       console.log('body >>>> ' + JSON.stringify(body))
-      console.log('body.weather.description: ' + body.weather.description)
-      res.say('esta é a resposta: ' + body.weather.description)
+      console.log('body.weather.description: ' + body.name)
+      res.say('esta é a resposta: ' + body.name)
     })
   }
 )
