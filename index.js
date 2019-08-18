@@ -18,23 +18,14 @@ app.error = (error, request, response) => {
     .say('Desculpe, algum erro ocorreu: ' + error.message)
 }
 
-app.intent('mes',
+app.intent('programacao',
   {
     'utterances': [
-      'deste mês']
-  },
-  (request, response) => {
-    response.say('digo deste mês')
-  }
-)
-
-app.intent('semana',
-  {
-    'utterances': [
+      'deste mês',
       'desta semana']
   },
   (request, response) => {
-    response.say('digo da semana')
+    response.say('Até mais')
   }
 )
 
