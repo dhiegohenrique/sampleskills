@@ -66,7 +66,7 @@ app.intent('CheckStatusIntent',
 
     return new Promise(async (resolve) => {
       const response = await request.get(url)
-      const body = response.body
+      const body = JSON.parse(response.body)
       console.log('body.weather.description: ' + body.name)
       res.say('esta é a resposta: ' + body.name)
       resolve()
