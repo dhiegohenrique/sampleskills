@@ -84,7 +84,7 @@ const getMonthlySchedule = () => {
 }
 
 const getWeeklySchedule = () => {
-  return new Promise((resolve) => {
+  return new Promise(async (resolve) => {
     const currentDate = moment()
     const year = currentDate.year()
     const day = currentDate.day()
