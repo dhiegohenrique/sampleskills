@@ -46,18 +46,16 @@ app.intent('CheckStatusIntent',
       'deste site']
   },
   (req, res) => {
-    let url = 'https://samples.openweathermap.org/data/2.5/weather?q=London,uk&appid=b6907d289e10d714a6e88b30761fae22'
-
     const currentDate = moment()
-    let month = String(currentDate.month())
-    if (parseInt(month) < 10 && !month.startsWith('0')) {
+    let month = parseInt(currentDate.month())
+    month = month + 1
+
+    if (parseInt(month) < 10 && !month.toString().startsWith('0')) {
       month = `0${month}`
     }
     
-    console.log('month >>>> ' + month)
-
     const year = currentDate.year()
-    url = `http://www.adorocinema.com/filmes/agenda/mes/mes-${year}-${month}/`
+    const url = `http://www.adorocinema.com/filmes/agenda/mes/mes-${year}-${month}/`
 
     return new Promise(async (resolve) => {
       const response = await axios.get(url)
