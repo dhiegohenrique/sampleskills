@@ -5,7 +5,7 @@ const app = new alexa.app('alexa-cine-skill')
 const moment = require('moment')
 const cheerio = require('cheerio')
 const axios = require('axios')
-const numeroPorExtenso = require('numero-por-extenso')
+const numero = require('numero-por-extenso')
 const Speech = require('ssml-builder')
 const months = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro']
 
@@ -94,10 +94,11 @@ const formatDate = (arrayReleases) => {
   return arrayReleases.map((release) => {
     let releaseDate = release.releaseDate
     let arrayDate = releaseDate.split('/')
-    arrayDate = arrayDate.map((item) => {
-      return numeroPorExtenso(item)
-    })
-
+    
+    arrayDate[0] = numero.porExtenso(arrayDate[0])
+    arrayDate[1] = months[arrayDate[1] - 1]
+    arrayDate[2] = numero.porExtenso(arrayDate[2])
+    
     release.releaseDate = `Estréias de ${arrayDate.join(' de ')}`
   })
 }
