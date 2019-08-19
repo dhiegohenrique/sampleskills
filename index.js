@@ -121,7 +121,7 @@ const getWeeklySchedule = () => {
 
     let arrayReleases = await getMonthlySchedule()
     arrayReleases = arrayReleases.filter((release) => {
-      let date = release.releaseDate
+      let date = release.releaseDate.trim()
       console.log('entrou aqui1: ', date)
       // date = date.replace('Estréias de ', '')
       // console.log('entrou aqui2: '.date)
