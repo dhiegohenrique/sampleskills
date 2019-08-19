@@ -105,6 +105,7 @@ const getWeeklySchedule = () => {
       to_date: to_date.toString(),
     });
 
+    resolve()
   })
 }
 
@@ -115,6 +116,7 @@ app.intent('CheckStatusIntent',
   },
   (req, res) => {
     return new Promise(async (resolve) => {
+      await getWeeklySchedule()
       const arrayReleases = await getMonthlySchedule()
       arrayReleases.forEach((release) => {
         let speech = new Speech()
