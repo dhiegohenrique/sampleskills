@@ -49,7 +49,7 @@ app.intent('CheckStatusIntent',
     let url = 'https://samples.openweathermap.org/data/2.5/weather?q=London,uk&appid=b6907d289e10d714a6e88b30761fae22'
 
     const currentDate = moment()
-    let month = currentDate.month()
+    let month = String(currentDate.month())
     if (parseInt(month) < 10 && !month.startsWith('0')) {
       month = `0${month}`
     }
