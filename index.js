@@ -40,12 +40,8 @@ app.intent('WeeklyScheduleIntent',
   }
 )
 
-app.intent('CheckStatusIntent',
-  {
-    'utterances': [
-      'deste site']
-  },
-  (req, res) => {
+const getMonthlySchedule = () => {
+  return new Promise(async (resolve) => {
     const currentDate = moment()
     let month = parseInt(currentDate.month())
     month = month + 1
@@ -53,37 +49,73 @@ app.intent('CheckStatusIntent',
     if (parseInt(month) < 10 && !month.toString().startsWith('0')) {
       month = `0${month}`
     }
-    
+
     const year = currentDate.year()
     const url = `http://www.adorocinema.com/filmes/agenda/mes/mes-${year}-${month}/`
 
-    return new Promise(async (resolve) => {
-      const response = await axios.get(url)
-      const $ = cheerio.load(response.data)
+    const response = await axios.get(url)
+    const $ = cheerio.load(response.data)
 
-      const arrayReleases = []
-      $('.movie-agenda-month').each((indexAgenda, el) => {
-        let releaseDate = $('.title-inter', el).first().text().trim()
-        releaseDate = releaseDate.replace('Estreias de ', '')
+    const arrayReleases = []
+    $('.movie-agenda-month').each((index, el) => {
+      let releaseDate = $('.title-inter', el).first().text().trim()
+      releaseDate = releaseDate.replace('Estreias de ', '')
 
-        let array = releaseDate.split(' ')
-        array[0] = numeroPorExtenso.porExtenso(array[0])
-        array[array.length - 1] = numeroPorExtenso.porExtenso(array[array.length - 1])
+      let array = releaseDate.split(' ')
+      array[0] = numeroPorExtenso.porExtenso(array[0])
+      array[array.length - 1] = numeroPorExtenso.porExtenso(array[array.length - 1])
 
-        releaseDate = `Estréias de ${array.join(' ')}`
-        const obj = {
-          releaseDate,
-          movies: []
-        }
+      releaseDate = `Estréias de ${array.join(' ')}`
+      const obj = {
+        releaseDate,
+        movies: []
+      }
 
-        $('.month-movies-link', el).each((index, el) => {
-          const movie = $(el).text().trim()
-          obj.movies.push(movie)
-        })
-
-        arrayReleases.push(obj)
+      $('.month-movies-link', el).each((index, el) => {
+        const movie = $(el).text().trim()
+        obj.movies.push(movie)
       })
 
+      arrayReleases.push(obj)
+    })
+
+    resolve(arrayReleases)
+  })
+}
+
+const getWeeklySchedule = () => {
+  return new Promise((resolve) => {
+    const currentDate = moment()
+    const year = currentDate.year()
+    const day = currentDate.day()
+
+    let month = parseInt(currentDate.month())
+    month = month + 1
+
+    if (parseInt(month) < 10 && !month.toString().startsWith('0')) {
+      month = `0${month}`
+    }
+
+    const today = moment();
+    const from_date = today.startOf('week');
+    const to_date = today.endOf('week');
+    console.log({
+      from_date: from_date.toString(),
+      today: moment().toString(),
+      to_date: to_date.toString(),
+    });
+
+  })
+}
+
+app.intent('CheckStatusIntent',
+  {
+    'utterances': [
+      'deste site']
+  },
+  (req, res) => {
+    return new Promise(async (resolve) => {
+      const arrayReleases = await getMonthlySchedule()
       arrayReleases.forEach((release) => {
         let speech = new Speech()
           .say(release.releaseDate)
