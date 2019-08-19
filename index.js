@@ -98,7 +98,7 @@ const formatDate = (arrayReleases) => {
       return numeroPorExtenso(item)
     })
 
-    release.releaseDate = `Estréias de ${arrayDate.join(' ')}`
+    release.releaseDate = `Estréias de ${arrayDate.join(' de ')}`
   })
 }
 
