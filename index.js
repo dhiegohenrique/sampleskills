@@ -61,11 +61,11 @@ const getMonthlySchedule = () => {
       let releaseDate = $('.title-inter', el).first().text().trim()
       releaseDate = releaseDate.replace('Estreias de ', '')
 
-      let array = releaseDate.split(' ')
-      array[0] = numeroPorExtenso.porExtenso(array[0])
-      array[array.length - 1] = numeroPorExtenso.porExtenso(array[array.length - 1])
+      // let array = releaseDate.split(' ')
+      // array[0] = numeroPorExtenso.porExtenso(array[0])
+      // array[array.length - 1] = numeroPorExtenso.porExtenso(array[array.length - 1])
 
-      releaseDate = `Estréias de ${array.join(' ')}`
+      // releaseDate = `Estréias de ${array.join(' ')}`
       const obj = {
         releaseDate,
         movies: []
@@ -80,6 +80,18 @@ const getMonthlySchedule = () => {
     })
 
     resolve(arrayReleases)
+  })
+}
+
+const formatDate = (arrayReleases) => {
+  return arrayReleases.map((release) => {
+    let releaseDate = release.releaseDate
+    let array = releaseDate.split(' ')
+    array[0] = numeroPorExtenso.porExtenso(array[0])
+    array[array.length - 1] = numeroPorExtenso.porExtenso(array[array.length - 1])
+
+    releaseDate = `Estréias de ${array.join(' ')}`
+    release.releaseDate = releaseDate
   })
 }
 
@@ -111,8 +123,8 @@ const getWeeklySchedule = () => {
     arrayReleases = arrayReleases.filter((release) => {
       let date = release.releaseDate
       console.log('entrou aqui1: ', date)
-      date = date.replace('Estréias de ', '')
-      console.log('entrou aqui2: '. date)
+      // date = date.replace('Estréias de ', '')
+      // console.log('entrou aqui2: '.date)
       date = moment(date, 'DD de MMMM de YYYY')
       console.log('entrou aqui3: ' + date)
 
@@ -133,7 +145,8 @@ app.intent('CheckStatusIntent',
   },
   (req, res) => {
     return new Promise(async (resolve) => {
-      const arrayReleases = await getWeeklySchedule()
+      let arrayReleases = await getWeeklySchedule()
+      arrayReleases = formatDate(arrayReleases)
       // const arrayReleases = await getMonthlySchedule()
       arrayReleases.forEach((release) => {
         let speech = new Speech()
