@@ -142,12 +142,12 @@ const getWeeklySchedule = () => {
       }
     }
 
-    arrayReleases = arrayReleases.filter((release) => {
-      let date = moment(release.releaseDate, `DD/MM/YYYY`)
-      return date.isBetween(inicio, fim)
-    })
+    // arrayReleases = arrayReleases.filter((release) => {
+    //   let date = moment(release.releaseDate, `DD/MM/YYYY`)
+    //   return date.isBetween(inicio, fim)
+    // })
 
-    console.log('arrayReleases: ' + JSON.stringify(arrayReleases))
+    // console.log('arrayReleases: ' + JSON.stringify(arrayReleases))
     arrayReleases = arrayWeekly
     resolve(arrayReleases)
   })
