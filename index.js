@@ -60,12 +60,19 @@ const getMonthlySchedule = () => {
     $('.movie-agenda-month').each((index, el) => {
       let releaseDate = $('.title-inter', el).first().text().trim()
       releaseDate = releaseDate.replace('Estreias de ', '')
+      let array = releaseDate.split(' ')
+      array = array.filter((item) => {
+        return item !== 'de'
+      })
+      array[1] = array[1].charAt(0).toUpperCase() + array[1].slice(1)
 
       // let array = releaseDate.split(' ')
       // array[0] = numeroPorExtenso.porExtenso(array[0])
       // array[array.length - 1] = numeroPorExtenso.porExtenso(array[array.length - 1])
 
       // releaseDate = `Estréias de ${array.join(' ')}`
+      releaseDate = `${array.join(' de ')}`
+
       const obj = {
         releaseDate,
         movies: []
