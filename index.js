@@ -71,16 +71,7 @@ const getMonthlySchedule = () => {
       })
       monthIndex = monthIndex + 1
       array[1] = `${monthIndex}`
-
-
-      // array[1] = array[1].charAt(0).toUpperCase() + array[1].slice(1)
-
-      // let array = releaseDate.split(' ')
-      // array[0] = numeroPorExtenso.porExtenso(array[0])
-      // array[array.length - 1] = numeroPorExtenso.porExtenso(array[array.length - 1])
-
-      // releaseDate = `Estréias de ${array.join(' ')}`
-      releaseDate = `${array.join('/')}`
+      releaseDate = array.join('/')
 
       const obj = {
         releaseDate,
@@ -102,12 +93,12 @@ const getMonthlySchedule = () => {
 const formatDate = (arrayReleases) => {
   return arrayReleases.map((release) => {
     let releaseDate = release.releaseDate
-    let array = releaseDate.split(' ')
-    array[0] = numeroPorExtenso.porExtenso(array[0])
-    array[array.length - 1] = numeroPorExtenso.porExtenso(array[array.length - 1])
+    let arrayDate = releaseDate.split('/')
+    arrayDate = arrayDate.map((item) => {
+      return numeroPorExtenso(item)
+    })
 
-    releaseDate = `Estréias de ${array.join(' ')}`
-    release.releaseDate = releaseDate
+    release.releaseDate = `Estréias de ${arrayDate.join(' ')}`
   })
 }
 
@@ -137,13 +128,7 @@ const getWeeklySchedule = () => {
 
     let arrayReleases = await getMonthlySchedule()
     arrayReleases = arrayReleases.filter((release) => {
-      let date = release.releaseDate.trim()
-      console.log('entrou aqui1: ', date)
-      // date = date.replace('Estréias de ', '')
-      // console.log('entrou aqui2: '.date)
-      date = moment(date, `DD/MM/YYYY`)
-      console.log('entrou aqui3: ' + date)
-
+      let date = moment(release.releaseDate, `DD/MM/YYYY`)
       if (date.isBetween(inicio, fim)) {
         console.log('entrou aqui4: ' + JSON.stringify(release))
         return release
