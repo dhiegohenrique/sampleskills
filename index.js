@@ -110,12 +110,14 @@ const getWeeklySchedule = () => {
     let arrayReleases = await getMonthlySchedule()
     arrayReleases = arrayReleases.filter((release) => {
       let date = release.releaseDate
+      console.log('entrou aqui1: ', date)
       date = date.replace('Estréias de ', '')
+      console.log('entrou aqui2: '. date)
       date = moment(date, 'DD de MMMM de YYYY')
-      console.log('entrou aqui1: ' + date.format(formato))
+      console.log('entrou aqui3: ' + date)
 
       if (date.isBetween(inicio, fim)) {
-        console.log('entrou aqui2: ' + JSON.stringify(release))
+        console.log('entrou aqui4: ' + JSON.stringify(release))
         return release
       }
     })
