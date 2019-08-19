@@ -7,6 +7,7 @@ const cheerio = require('cheerio')
 const axios = require('axios')
 const numeroPorExtenso = require('numero-por-extenso')
 const Speech = require('ssml-builder')
+const months = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro']
 
 app.launch((request, response) => {
   response
@@ -64,14 +65,22 @@ const getMonthlySchedule = () => {
       array = array.filter((item) => {
         return item !== 'de'
       })
-      array[1] = array[1].charAt(0).toUpperCase() + array[1].slice(1)
+
+      let monthIndex = months.findIndex((month) => {
+        return month.toLowerCase() === array[1].toLowerCase()
+      })
+      monthIndex = monthIndex + 1
+      array[1] = `${monthIndex}`
+
+
+      // array[1] = array[1].charAt(0).toUpperCase() + array[1].slice(1)
 
       // let array = releaseDate.split(' ')
       // array[0] = numeroPorExtenso.porExtenso(array[0])
       // array[array.length - 1] = numeroPorExtenso.porExtenso(array[array.length - 1])
 
       // releaseDate = `Estréias de ${array.join(' ')}`
-      releaseDate = `${array.join(' de ')}`
+      releaseDate = `${array.join('/')}`
 
       const obj = {
         releaseDate,
@@ -132,7 +141,7 @@ const getWeeklySchedule = () => {
       console.log('entrou aqui1: ', date)
       // date = date.replace('Estréias de ', '')
       // console.log('entrou aqui2: '.date)
-      date = moment(date, `DD 'de' MMMM 'de' YYYY`)
+      date = moment(date, `DD/MM/YYYY`)
       console.log('entrou aqui3: ' + date)
 
       if (date.isBetween(inicio, fim)) {
