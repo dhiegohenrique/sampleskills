@@ -131,8 +131,10 @@ const getWeeklySchedule = () => {
       let date = moment(release.releaseDate, `DD/MM/YYYY`)
       if (date.isBetween(inicio, fim)) {
         console.log('entrou aqui4: ' + JSON.stringify(release))
-        return release
+        return true
       }
+
+      return false
     })
 
     resolve(arrayReleases)
