@@ -96,14 +96,16 @@ const getWeeklySchedule = () => {
       month = `0${month}`
     }
 
-    const today = moment();
-    const from_date = today.startOf('week');
-    const to_date = today.endOf('week');
-    console.log({
-      from_date: from_date.toString(),
-      today: moment().toString(),
-      to_date: to_date.toString(),
-    });
+    let agora = moment();
+
+    let inicio = moment().day(0); // domingo desta semana
+    let fim = moment().day(6); // sábado desta semana
+
+    // imprimir as datas no formato desejado
+    let formato = 'DD/MM/YYYY';
+    console.log('agora=', agora.format(formato));
+    console.log('início=', inicio.format(formato));
+    console.log('fim=', fim.format(formato));
 
     resolve()
   })
