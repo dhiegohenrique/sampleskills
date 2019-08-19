@@ -129,13 +129,14 @@ const getWeeklySchedule = () => {
 
     let arrayReleases = await getMonthlySchedule()
     arrayReleases = arrayReleases.filter((release) => {
+      console.log('entrou aqui1: ' + JSON.stringify(release))
       let date = moment(release.releaseDate, `DD/MM/YYYY`)
       if (date.isBetween(inicio, fim)) {
-        console.log('entrou aqui4: ' + JSON.stringify(release))
-        return true
+        console.log('entrou aqui2: ' + JSON.stringify(release))
+        return release
       }
 
-      return false
+      // return false
     })
 
     resolve(arrayReleases)
