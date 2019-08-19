@@ -107,7 +107,18 @@ const getWeeklySchedule = () => {
     console.log('início=', inicio.format(formato));
     console.log('fim=', fim.format(formato));
 
-    resolve()
+    let arrayReleases = await getMonthlySchedule()
+    arrayReleases = arrayReleases.filter((release) => {
+      let date = release.releaseDate
+      date = date.replace('Estréias de ', '')
+      date = moment(date, 'DD de MMMM de YYYY')
+
+      if (date.isBetween(inicio, fim)) {
+        return release
+      }
+    })
+
+    resolve(arrayReleases)
   })
 }
 
@@ -118,8 +129,8 @@ app.intent('CheckStatusIntent',
   },
   (req, res) => {
     return new Promise(async (resolve) => {
-      await getWeeklySchedule()
-      const arrayReleases = await getMonthlySchedule()
+      const arrayReleases = await getWeeklySchedule()
+      // const arrayReleases = await getMonthlySchedule()
       arrayReleases.forEach((release) => {
         let speech = new Speech()
           .say(release.releaseDate)
