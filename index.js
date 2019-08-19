@@ -132,7 +132,7 @@ const getWeeklySchedule = () => {
       console.log('entrou aqui1: ', date)
       // date = date.replace('Estréias de ', '')
       // console.log('entrou aqui2: '.date)
-      date = moment(date, 'DD de MMMM de YYYY')
+      date = moment(date, `DD 'de' MMMM 'de' YYYY`)
       console.log('entrou aqui3: ' + date)
 
       if (date.isBetween(inicio, fim)) {
