@@ -112,8 +112,10 @@ const getWeeklySchedule = () => {
       let date = release.releaseDate
       date = date.replace('Estréias de ', '')
       date = moment(date, 'DD de MMMM de YYYY')
+      console.log('entrou aqui1: ' + date.format(formato))
 
       if (date.isBetween(inicio, fim)) {
+        console.log('entrou aqui2: ' + JSON.stringify(release))
         return release
       }
     })
