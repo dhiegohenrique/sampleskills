@@ -101,6 +101,7 @@ const formatDate = (arrayReleases) => {
     arrayDate[2] = numero.porExtenso(arrayDate[2])
 
     release.releaseDate = `Estréias de ${arrayDate.join(' de ')}`
+    return release
   })
 }
 
