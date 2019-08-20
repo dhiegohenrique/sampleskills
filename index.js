@@ -124,8 +124,11 @@ app.intent('WeeklyScheduleIntent',
   },
   (req, res) => {
     return new Promise(async (resolve) => {
+      console.log('entrou aqui1 >>>>>> ')
       let arrayReleases = await getWeeklySchedule()
+      console.log('entrou aqui2 >>>>>> ')
       arrayReleases = formatDate(arrayReleases)
+      console.log('entrou aqui3 >>>>>> ')
       await sayReleases(res, arrayReleases)
       resolve()
     })
