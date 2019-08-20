@@ -157,7 +157,7 @@ app.intent('AMAZON.HelpIntent', {
 
 const sayReleases = (res, arrayReleases) => {
   return new Promise((resolve) => {
-    arrayReleases.forEach((release) => {
+    arrayReleases.forEach((release, index) => {
       let speech = new Speech()
         .say(release.releaseDate)
         .pause('2s')
@@ -172,10 +172,12 @@ const sayReleases = (res, arrayReleases) => {
 
         speechOutput = speech.ssml(true)
         res.say(speechOutput)
+
+        if (index === arrayReleases.length - 1) {
+          resolve()
+        }
       })
     })
-
-    resolve()
   })
 }
 
