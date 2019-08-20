@@ -42,7 +42,7 @@ const getMonthlySchedule = () => {
     $('.movie-agenda-month').each((index, el) => {
       let releaseDate = $('.title-inter', el).first().text().trim()
       releaseDate = releaseDate.replace('Estreias de ', '')
-      
+
       let arrayDate = releaseDate.split(' ')
       arrayDate = arrayDate.filter((item) => {
         return item !== 'de'
@@ -88,13 +88,12 @@ const formatDate = (arrayReleases) => {
 
 const getWeeklySchedule = () => {
   return new Promise(async (resolve) => {
-    const currentDate = moment()
     const startDate = moment().day(0)
     const endDate = moment().day(6)
 
     let arrayReleases = await getMonthlySchedule()
     arrayReleases = arrayReleases.filter((release) => {
-      let date = moment(release.releaseDate, 'DD/MM/YYYY')
+      const date = moment(release.releaseDate, 'DD/MM/YYYY')
       return date.isBetween(startDate, endDate)
     })
 
@@ -105,17 +104,20 @@ const getWeeklySchedule = () => {
 app.intent('MonthlyScheduleIntent',
   {
     'utterances': [
-      'deste mês']
+      'deste mês',
+      'deste mes',
+      'mês',
+      'mes',
+      'do mês',
+      'do mes',
+      'desse mês',
+      'desse mes']
   },
   (req, res) => {
     return new Promise(async (resolve) => {
-      console.log('entrou aqui1-mes >>>>>> ')
       let arrayReleases = await getMonthlySchedule()
-      console.log('entrou aqui2-mes >>>>>> ')
       arrayReleases = formatDate(arrayReleases)
-      console.log('entrou aqui3-mes >>>>>> ')
       await sayReleases(res, arrayReleases)
-      console.log('entrou aqui4-mes >>>>>> ')
       resolve()
     })
   }
@@ -124,17 +126,16 @@ app.intent('MonthlyScheduleIntent',
 app.intent('WeeklyScheduleIntent',
   {
     'utterances': [
-      'desta semana']
+      'desta semana',
+      'semana',
+      'da semana',
+      'dessa semana']
   },
   (req, res) => {
     return new Promise(async (resolve) => {
-      console.log('entrou aqui1-semana >>>>>> ')
       let arrayReleases = await getWeeklySchedule()
-      console.log('entrou aqui2-semana >>>>>> ')
       arrayReleases = formatDate(arrayReleases)
-      console.log('entrou aqui3-semana >>>>>> ')
       await sayReleases(res, arrayReleases)
-      console.log('entrou aqui4-semana >>>>>> ')
       resolve()
     })
   }
@@ -147,7 +148,6 @@ app.intent('AMAZON.HelpIntent', {
   (request, response) => {
     const helpOutput = 'Você pode escolher entre a programação deste mês ou desta semana'
     const reprompt = 'Qual programação você deseja saber?'
-    // AMAZON.HelpIntent must leave session open -> .shouldEndSession(false)
     response
       .say(helpOutput)
       .reprompt(reprompt)
@@ -157,7 +157,7 @@ app.intent('AMAZON.HelpIntent', {
 
 const sayReleases = (res, arrayReleases) => {
   return new Promise((resolve) => {
-    arrayReleases.forEach((release, index) => {
+    arrayReleases.forEach((release) => {
       let speech = new Speech()
         .say(release.releaseDate)
         .pause('2s')
@@ -173,11 +173,8 @@ const sayReleases = (res, arrayReleases) => {
         speechOutput = speech.ssml(true)
         res.say(speechOutput)
       })
-
-      if (index === arrayReleases.length - 1) {
-        resolve()
-      }
     })
+    resolve()
   })
 }
 
