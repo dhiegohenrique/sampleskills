@@ -89,12 +89,12 @@ const formatDate = (arrayReleases) => {
 const getWeeklySchedule = () => {
   return new Promise(async (resolve) => {
     const currentDate = moment()
-    const startDate = currentDate.day(0)
-    const endDate = currentDate.day(6)
+    const startDate = moment().day(0)
+    const endDate = moment().day(6)
 
     let arrayReleases = await getMonthlySchedule()
     arrayReleases = arrayReleases.filter((release) => {
-      let date = moment(release.releaseDate, `DD/MM/YYYY`)
+      let date = moment(release.releaseDate, 'DD/MM/YYYY')
       return date.isBetween(startDate, endDate)
     })
 
