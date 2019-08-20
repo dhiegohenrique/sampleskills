@@ -92,6 +92,7 @@ const getMonthlySchedule = () => {
 
 const formatDate = (arrayReleases) => {
   return arrayReleases.map((release) => {
+    console.log('entrou aqui1: ' + JSON.stringify(release))
     let releaseDate = release.releaseDate
     let arrayDate = releaseDate.split('/')
 
@@ -147,8 +148,8 @@ const getWeeklySchedule = () => {
     //   return date.isBetween(inicio, fim)
     // })
 
-    // console.log('arrayReleases: ' + JSON.stringify(arrayReleases))
     arrayReleases = arrayWeekly
+    console.log('arrayReleases: ' + JSON.stringify(arrayReleases))
     resolve(arrayReleases)
   })
 }
