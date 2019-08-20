@@ -102,21 +102,6 @@ const getWeeklySchedule = () => {
   })
 }
 
-app.intent('WeeklyScheduleIntent',
-  {
-    'utterances': [
-      'desta semana']
-  },
-  (req, res) => {
-    return new Promise(async (resolve) => {
-      let arrayReleases = await getWeeklySchedule()
-      arrayReleases = formatDate(arrayReleases)
-      await sayReleases(res, arrayReleases)
-      resolve()
-    })
-  }
-)
-
 app.intent('MonthlyScheduleIntent',
   {
     'utterances': [
@@ -125,6 +110,21 @@ app.intent('MonthlyScheduleIntent',
   (req, res) => {
     return new Promise(async (resolve) => {
       let arrayReleases = await getMonthlySchedule()
+      arrayReleases = formatDate(arrayReleases)
+      await sayReleases(res, arrayReleases)
+      resolve()
+    })
+  }
+)
+
+app.intent('WeeklyScheduleIntent',
+  {
+    'utterances': [
+      'desta semana']
+  },
+  (req, res) => {
+    return new Promise(async (resolve) => {
+      let arrayReleases = await getWeeklySchedule()
       arrayReleases = formatDate(arrayReleases)
       await sayReleases(res, arrayReleases)
       resolve()
