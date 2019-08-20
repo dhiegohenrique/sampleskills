@@ -109,9 +109,13 @@ app.intent('MonthlyScheduleIntent',
   },
   (req, res) => {
     return new Promise(async (resolve) => {
+      console.log('entrou aqui1-mes >>>>>> ')
       let arrayReleases = await getMonthlySchedule()
+      console.log('entrou aqui2-mes >>>>>> ')
       arrayReleases = formatDate(arrayReleases)
+      console.log('entrou aqui3-mes >>>>>> ')
       await sayReleases(res, arrayReleases)
+      console.log('entrou aqui4-mes >>>>>> ')
       resolve()
     })
   }
@@ -124,12 +128,13 @@ app.intent('WeeklyScheduleIntent',
   },
   (req, res) => {
     return new Promise(async (resolve) => {
-      console.log('entrou aqui1 >>>>>> ')
+      console.log('entrou aqui1-semana >>>>>> ')
       let arrayReleases = await getWeeklySchedule()
-      console.log('entrou aqui2 >>>>>> ')
+      console.log('entrou aqui2-semana >>>>>> ')
       arrayReleases = formatDate(arrayReleases)
-      console.log('entrou aqui3 >>>>>> ')
+      console.log('entrou aqui3-semana >>>>>> ')
       await sayReleases(res, arrayReleases)
+      console.log('entrou aqui4-semana >>>>>> ')
       resolve()
     })
   }
