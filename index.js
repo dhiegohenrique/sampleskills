@@ -172,11 +172,11 @@ const sayReleases = (res, arrayReleases) => {
 
         speechOutput = speech.ssml(true)
         res.say(speechOutput)
-
-        if (index === arrayReleases.length - 1) {
-          resolve()
-        }
       })
+
+      if (index === arrayReleases.length - 1) {
+        resolve()
+      }
     })
   })
 }
