@@ -105,7 +105,7 @@ const getWeeklySchedule = () => {
 app.intent('MonthlyScheduleIntent',
   {
     'utterances': [
-      'deste mês']
+      'mês']
   },
   (req, res) => {
     return new Promise(async (resolve) => {
@@ -120,7 +120,7 @@ app.intent('MonthlyScheduleIntent',
 app.intent('WeeklyScheduleIntent',
   {
     'utterances': [
-      'desta semana']
+      'semana']
   },
   (req, res) => {
     return new Promise(async (resolve) => {
