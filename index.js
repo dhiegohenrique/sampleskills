@@ -93,25 +93,32 @@ const sayReleases = (res, arrayReleases) => {
     arrayReleases.forEach((release) => {
       let speech = new Speech()
       speech
-        // .say(release.releaseDate)
         .say('Estréias de')
         .sayAs({
           'word': release.releaseDate,
           'interpret': 'date'
         })
+        .say(':')
         .pause('2s')
 
       let speechOutput = speech.ssml(true)
       res.say(speechOutput)
 
-      release.movies.forEach((movie) => {
-        speech = new Speech()
-          .say(movie)
-          .pause('1s')
+      const movies = release.movies.join(', ')
+      speech = new Speech()
+        .say(movies)
 
-        speechOutput = speech.ssml(true)
-        res.say(speechOutput)
-      })
+      speechOutput = speech.ssml(true)
+      res.say(speechOutput)
+
+      // release.movies.forEach((movie) => {
+      //   speech = new Speech()
+      //     .say(movie)
+      //     .pause('1s')
+
+      //   speechOutput = speech.ssml(true)
+      //   res.say(speechOutput)
+      // })
     })
     resolve()
   })
