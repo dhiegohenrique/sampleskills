@@ -186,7 +186,7 @@ app.intent('WeeklyScheduleIntent',
 
 app.intent('AMAZON.HelpIntent', {
   'utterances': [
-    'o que você pode fazer',
+    'o que posso fazer',
     'me ajuda',
     'me ajude',
     'opções',
