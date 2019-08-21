@@ -9,19 +9,6 @@ const numero = require('numero-por-extenso')
 const Speech = require('ssml-builder')
 const months = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro']
 
-app.launch((request, response) => {
-  response
-    .say('Bem-vindo aos lançamentos do cinema')
-    .reprompt('Você deseja saber os lançamentos deste mês ou desta semana?')
-    .shouldEndSession(false)
-})
-
-app.error = (error, request, response) => {
-  console.error(`Erro: ${error.message}`)
-  response
-    .say(`Desculpe, algum erro ocorreu: ${error.message}`)
-}
-
 const getMonthlySchedule = () => {
   return new Promise(async (resolve) => {
     const currentDate = moment()
@@ -101,60 +88,6 @@ const getWeeklySchedule = () => {
   })
 }
 
-app.intent('MonthlyScheduleIntent',
-  {
-    'utterances': [
-      'deste mês',
-      'deste mes',
-      'mês',
-      'mes',
-      'do mês',
-      'do mes',
-      'desse mês',
-      'desse mes']
-  },
-  (req, res) => {
-    return new Promise(async (resolve) => {
-      let arrayReleases = await getMonthlySchedule()
-      arrayReleases = formatDate(arrayReleases)
-      await sayReleases(res, arrayReleases)
-      resolve()
-    })
-  }
-)
-
-app.intent('WeeklyScheduleIntent',
-  {
-    'utterances': [
-      'desta semana',
-      'semana',
-      'da semana',
-      'dessa semana']
-  },
-  (req, res) => {
-    return new Promise(async (resolve) => {
-      let arrayReleases = await getWeeklySchedule()
-      arrayReleases = formatDate(arrayReleases)
-      await sayReleases(res, arrayReleases)
-      resolve()
-    })
-  }
-)
-
-app.intent('AMAZON.HelpIntent', {
-  'slots': {},
-  'utterances': []
-},
-  (request, response) => {
-    const helpOutput = 'Você pode escolher entre a programação deste mês ou desta semana'
-    const reprompt = 'Qual programação você deseja saber?'
-    response
-      .say(helpOutput)
-      .reprompt(reprompt)
-      .shouldEndSession(false)
-  }
-)
-
 const sayReleases = (res, arrayReleases) => {
   return new Promise((resolve) => {
     arrayReleases.forEach((release) => {
@@ -177,5 +110,87 @@ const sayReleases = (res, arrayReleases) => {
     resolve()
   })
 }
+
+app.launch((request, response) => {
+  response
+    .say('Bem-vindo aos lançamentos do cinema')
+    .reprompt('Você deseja saber os lançamentos deste mês ou desta semana?')
+    .shouldEndSession(false)
+})
+
+app.error = (error, request, response) => {
+  console.error(`Erro: ${error.message}`)
+  response
+    .say(`Desculpe, algum erro ocorreu: ${error.message}`)
+}
+
+app.intent('MonthlyScheduleIntent',
+  {
+    'utterances': [
+      'deste mês',
+      'deste mes',
+      'mês',
+      'mes',
+      'do mês',
+      'do mes',
+      'desse mês',
+      'desse mes']
+  },
+  (request, response) => {
+    return new Promise(async (resolve) => {
+      let arrayReleases = await getMonthlySchedule()
+      arrayReleases = formatDate(arrayReleases)
+      if (!arrayReleases.length) {
+        response.say('Não foram encontrados lançamentos para o mês atual')
+        return resolve()
+      }
+
+      await sayReleases(response, arrayReleases)
+      resolve()
+    })
+  }
+)
+
+app.intent('WeeklyScheduleIntent',
+  {
+    'utterances': [
+      'desta semana',
+      'semana',
+      'da semana',
+      'dessa semana']
+  },
+  (request, response) => {
+    return new Promise(async (resolve) => {
+      let arrayReleases = await getWeeklySchedule()
+      arrayReleases = formatDate(arrayReleases)
+      if (!arrayReleases.length) {
+        response.say('Não foram encontrados lançamentos para a semana atual')
+        return resolve()
+      }
+
+      await sayReleases(response, arrayReleases)
+      resolve()
+    })
+  }
+)
+
+app.intent('AMAZON.HelpIntent', {
+  'utterances': [
+    'o que você pode fazer',
+    'me ajuda',
+    'me ajude',
+    'opções',
+    'suporte'
+  ]
+},
+  (request, response) => {
+    const helpOutput = 'Você pode escolher entre os lançamentos deste mês ou desta semana'
+    const reprompt = 'Quais lançamentos você deseja saber?'
+    response
+      .say(helpOutput)
+      .reprompt(reprompt)
+      .shouldEndSession(false)
+  }
+)
 
 module.exports = app
