@@ -68,7 +68,7 @@ const formatDate = (arrayReleases) => {
     arrayDate[1] = months[arrayDate[1] - 1]
     arrayDate[2] = numero.porExtenso(arrayDate[2])
 
-    release.releaseDate = arrayDate.join(' de ').trim()
+    release.releaseDate = arrayDate.join(' de ')
     return release
   })
 }
