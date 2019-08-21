@@ -68,7 +68,7 @@ const formatDate = (arrayReleases) => {
     arrayDate[1] = months[arrayDate[1] - 1]
     arrayDate[2] = numero.porExtenso(arrayDate[2])
 
-    release.releaseDate = `${arrayDate.join(' de ')}`
+    release.releaseDate = arrayDate.join(' de ').trim()
     return release
   })
 }
@@ -104,21 +104,18 @@ const sayReleases = (res, arrayReleases) => {
       let speechOutput = speech.ssml(true)
       res.say(speechOutput)
 
-      const movies = release.movies.join(', ')
-      speech = new Speech()
-        .say(movies)
+      release.movies.forEach((movie, index) => {
+        if (index < release.movies.length - 1) {
+          movie += ','
+        }
 
-      speechOutput = speech.ssml(true)
-      res.say(speechOutput)
+        speech = new Speech()
+          .say(movie)
+          .pause('1s')
 
-      // release.movies.forEach((movie) => {
-      //   speech = new Speech()
-      //     .say(movie)
-      //     .pause('1s')
-
-      //   speechOutput = speech.ssml(true)
-      //   res.say(speechOutput)
-      // })
+        speechOutput = speech.ssml(true)
+        res.say(speechOutput)
+      })
     })
     resolve()
   })
