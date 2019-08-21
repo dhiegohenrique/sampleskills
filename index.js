@@ -68,7 +68,7 @@ const formatDate = (arrayReleases) => {
     arrayDate[1] = months[arrayDate[1] - 1]
     arrayDate[2] = numero.porExtenso(arrayDate[2])
 
-    release.releaseDate = `Estréias de ${arrayDate.join(' de ')}`
+    release.releaseDate = `${arrayDate.join(' de ')}`
     return release
   })
 }
@@ -92,7 +92,13 @@ const sayReleases = (res, arrayReleases) => {
   return new Promise((resolve) => {
     arrayReleases.forEach((release) => {
       let speech = new Speech()
-        .say(release.releaseDate)
+      speech
+        // .say(release.releaseDate)
+        .say('Estréias de')
+        .sayAs({
+          'word': release.releaseDate,
+          'interpret': 'date'
+        })
         .pause('2s')
 
       let speechOutput = speech.ssml(true)
