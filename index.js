@@ -211,6 +211,9 @@ app.intent('AMAZON.StopIntent', {
     'pare',
     'parar'
   ]
+}, (request, response) => {
+  response
+    .shouldEndSession(true)
 }
 )
 
@@ -220,6 +223,9 @@ app.intent('AMAZON.CancelIntent', {
     'cancelar',
     'cancele'
   ]
+}, (request, response) => {
+  response
+    .shouldEndSession(true)
 }
 )
 
