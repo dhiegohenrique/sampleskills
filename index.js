@@ -122,9 +122,11 @@ const sayReleases = (res, arrayReleases) => {
 }
 
 app.launch((request, response) => {
+  const message = 'Você deseja saber os lançamentos deste mês ou desta semana?'
+
   response
-    .say('Bem-vindo aos lançamentos do cinema')
-    .reprompt('Você deseja saber os lançamentos deste mês ou desta semana?')
+    .say(`Bem-vindo aos lançamentos do cinema. ${message}`)
+    .reprompt(message)
     .shouldEndSession(false)
 })
 
@@ -201,6 +203,15 @@ app.intent('AMAZON.HelpIntent', {
       .reprompt(reprompt)
       .shouldEndSession(false)
   }
+)
+
+app.intent('AMAZON.StopIntent', {
+  'utterances': [
+    'para',
+    'pare',
+    'parar'
+  ]
+}
 )
 
 module.exports = app
