@@ -214,4 +214,13 @@ app.intent('AMAZON.StopIntent', {
 }
 )
 
+app.intent('AMAZON.CancelIntent', {
+  'utterances': [
+    'cancela',
+    'cancelar',
+    'cancele'
+  ]
+}
+)
+
 module.exports = app
